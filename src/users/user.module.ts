@@ -6,4 +6,4 @@ import { UserRepository } from './user.repository';
   controllers: [UserController],
   providers: [UserRepository],
 })
-export class UserModule {}
+export default class UserModule {}
