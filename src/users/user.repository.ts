@@ -12,4 +12,17 @@ export class UserRepository {
   async list(): Promise<UserDTO[]> {
     return this.users;
   }
+
+  async searchEmail(email: string): Promise<boolean> {
+    const hasUserEmail = this.users.find(
+      (userEmail: UserDTO) => userEmail.email === email,
+    );
+
+    if (hasUserEmail) {
+      return true;
+    }
+    return false;
+
+    // return hasUserEmail !== undefined;
+  }
 }
