@@ -1,21 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import UserDTO from './dtos/user.dto';
+import { UserEntity } from './user.entity';
 
 @Injectable()
 export class UserRepository {
-  private users: UserDTO[] = [];
+  private users: UserEntity[] = [];
 
-  async create(user: UserDTO): Promise<void> {
+  async create(user: UserEntity): Promise<void> {
     this.users.push(user);
   }
 
-  async list(): Promise<UserDTO[]> {
+  async list(): Promise<UserEntity[]> {
     return this.users;
   }
 
   async searchEmail(email: string): Promise<boolean> {
     const hasUserEmail = this.users.find(
-      (userEmail: UserDTO) => userEmail.email === email,
+      (userEmail: UserEntity) => userEmail.email === email,
     );
 
     if (hasUserEmail) {
