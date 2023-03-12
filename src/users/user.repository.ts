@@ -34,4 +34,24 @@ export class UserRepository {
     }
     return false;
   }
+
+  async update(id: string, userData: Partial<UserEntity>): Promise<UserEntity> {
+    const hasUser = this.users.find((user: UserEntity) => {
+      return user.id === id;
+    });
+
+    if (!hasUser) {
+      throw new Error(`User don't already exists`);
+    }
+
+    Object.entries(userData).forEach(([key, value]) => {
+      if (key === 'id') {
+        return;
+      }
+
+      hasUser[key] = value;
+    });
+
+    return hasUser;
+  }
 }

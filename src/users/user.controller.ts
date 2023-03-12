@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import ResponseDTO from 'src/dtos/response.dto';
 import UserDTO from './dtos/user.dto';
 import { UserEntity } from './user.entity';
 import { UserRepository } from './user.repository';
 import { v4 as uuidV4 } from 'uuid';
 import { UserList } from './dtos/user.list.dto';
+import UserUpdate from './dtos/user.update.dto';
 
 @Controller('/users')
 export class UserController {
@@ -36,9 +37,24 @@ export class UserController {
       return {
         id: user.id,
         name: user.name,
+        email: user.email,
       };
     });
 
     return result;
+  }
+
+  @Put('/:id')
+  async putUser(
+    @Param('id') id: string,
+    @Body() userData: UserUpdate,
+  ): Promise<ResponseDTO> {
+    const result = await this.usersRepository.update(id, userData);
+
+    return {
+      status: 204,
+      message: 'Updated user',
+      data: result,
+    };
   }
 }
