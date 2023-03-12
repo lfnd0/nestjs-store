@@ -25,4 +25,13 @@ export class UserRepository {
 
     // return hasUserEmail !== undefined;
   }
+
+  async searchId(id: string): Promise<boolean> {
+    const hasUserId = this.users.find((userId: UserEntity) => userId.id === id);
+
+    if (hasUserId) {
+      return true;
+    }
+    return false;
+  }
 }
