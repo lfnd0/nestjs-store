@@ -36,13 +36,7 @@ export class UserRepository {
   }
 
   async update(id: string, userData: Partial<UserEntity>): Promise<UserEntity> {
-    const hasUser = this.users.find((user: UserEntity) => {
-      return user.id === id;
-    });
-
-    if (!hasUser) {
-      throw new Error(`User don't already exists`);
-    }
+    const hasUser = this.getUserById(id);
 
     Object.entries(userData).forEach(([key, value]) => {
       if (key === 'id') {
@@ -51,6 +45,28 @@ export class UserRepository {
 
       hasUser[key] = value;
     });
+
+    return hasUser;
+  }
+
+  async delete(id: string): Promise<UserEntity> {
+    const hasUser = this.getUserById(id);
+
+    this.users = this.users.filter((user: UserEntity) => {
+      return user.id !== id;
+    });
+
+    return hasUser;
+  }
+
+  private getUserById(id: string): UserEntity {
+    const hasUser = this.users.find((user: UserEntity) => {
+      return user.id === id;
+    });
+
+    if (!hasUser) {
+      throw new Error(`User don't already exists`);
+    }
 
     return hasUser;
   }
